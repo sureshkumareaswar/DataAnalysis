@@ -47,8 +47,7 @@ public class FileUtility {
             throw new IllegalArgumentException("Column '" + columnName + "' not found in the CSV file.");
         }
 
-        return lines.stream().skip(1)
-                .map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).mapToDouble(parts -> Double.parseDouble(parts[columnIndex].trim())).average().orElse(0.0);
+        return lines.stream().skip(1).map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).mapToDouble(parts -> Double.parseDouble(parts[columnIndex].trim())).average().orElse(0.0);
     }
 
     public static List<String> startsWith(String filePath, String columnName, String prefix) throws IOException {
@@ -59,8 +58,16 @@ public class FileUtility {
             throw new IllegalArgumentException("Column '" + columnName + "' not found in the CSV file.");
         }
 
-        return lines.stream().skip(1)
-                .map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).filter(parts -> parts[columnIndex].trim().startsWith(prefix)).map(parts -> parts[columnIndex].trim()).collect(Collectors.toList());
+        final boolean[] foundPrefix = {false};
+        return lines.stream().skip(1) // Skip the header row
+                .map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).filter(parts -> {
+                    if (foundPrefix[0]) {
+                        return false;  // Skip values until the next occurrence after the prefix
+                    }
+                    boolean startsWith = parts[columnIndex].trim().startsWith(prefix);
+                    foundPrefix[0] = startsWith;
+                    return startsWith;
+                }).map(parts -> parts[columnIndex].trim()).collect(Collectors.toList());
     }
 
     public static List<String> endsWith(String filePath, String columnName, String suffix) throws IOException {
@@ -71,8 +78,16 @@ public class FileUtility {
             throw new IllegalArgumentException("Column '" + columnName + "' not found in the CSV file.");
         }
 
+        final boolean[] foundSuffix = {false};
         return lines.stream().skip(1) // Skip the header row
-                .map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).filter(parts -> parts[columnIndex].trim().endsWith(suffix)).map(parts -> parts[columnIndex].trim()).collect(Collectors.toList());
+                .map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).filter(parts -> {
+                    if (foundSuffix[0]) {
+                        return false;  // Skip values until the next occurrence after the suffix
+                    }
+                    boolean endsWith = parts[columnIndex].trim().endsWith(suffix);
+                    foundSuffix[0] = endsWith;
+                    return endsWith;
+                }).map(parts -> parts[columnIndex].trim()).collect(Collectors.toList());
     }
 
     private static int getHeaderIndex(String[] headers, String columnName) {
