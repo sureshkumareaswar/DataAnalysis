@@ -15,8 +15,8 @@ public class FileUtility {
     /**
      * Calculates the sum of numeric values in a specified column of a CSV file.
      *
-     * @param filePath    The path to the CSV file.
-     * @param columnName  The name of the column for which the sum is calculated.
+     * @param filePath   The path to the CSV file.
+     * @param columnName The name of the column for which the sum is calculated.
      * @return The sum of numeric values in the specified column.
      * @throws IOException If an I/O error occurs while reading the CSV file.
      */
@@ -48,11 +48,12 @@ public class FileUtility {
         }
         return -1;
     }
+
     /**
      * Calculates the average of numeric values in a specified column of a CSV file.
      *
-     * @param filePath    The path to the CSV file.
-     * @param columnName  The name of the column for which the average is calculated.
+     * @param filePath   The path to the CSV file.
+     * @param columnName The name of the column for which the average is calculated.
      * @return The average of numeric values in the specified column.
      * @throws IOException If an I/O error occurs while reading the CSV file.
      */
@@ -67,12 +68,13 @@ public class FileUtility {
 
         return lines.stream().skip(1).map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).mapToDouble(parts -> Double.parseDouble(parts[columnIndex].trim())).average().orElse(0.0);
     }
+
     /**
      * Retrieves a list of values from a specified column in a CSV file that start with a given prefix.
      *
-     * @param filePath    The path to the CSV file.
-     * @param columnName  The name of the column to search for values.
-     * @param prefix      The prefix to match at the beginning of the values.
+     * @param filePath   The path to the CSV file.
+     * @param columnName The name of the column to search for values.
+     * @param prefix     The prefix to match at the beginning of the values.
      * @return A list of values from the specified column that start with the given prefix.
      * @throws IOException If an I/O error occurs while reading the CSV file.
      */
@@ -97,12 +99,13 @@ public class FileUtility {
                     return startsWith;
                 }).map(parts -> parts[columnIndex].trim()).collect(Collectors.toList());
     }
+
     /**
      * Retrieves a list of values from a specified column in a CSV file that end with a given suffix.
      *
-     * @param filePath    The path to the CSV file.
-     * @param columnName  The name of the column to search for values.
-     * @param suffix      The suffix to match at the end of the values.
+     * @param filePath   The path to the CSV file.
+     * @param columnName The name of the column to search for values.
+     * @param suffix     The suffix to match at the end of the values.
      * @return A list of values from the specified column that end with the given suffix.
      * @throws IOException If an I/O error occurs while reading the CSV file.
      */
