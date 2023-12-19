@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String filePath = "/home/ib-38/Downloads/student-dataset.csv";
         String columnName = "mark";
         double sum = FileUtility.sum(filePath, columnName);
@@ -18,6 +18,5 @@ public class Main {
         System.out.println("avg: " + average);
         System.out.println("startWith: " + startWIth);
         System.out.println("endWith: " + endWith);
-
     }
 }
