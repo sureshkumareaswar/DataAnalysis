@@ -13,6 +13,6 @@ public class ResponseData {
 
     @Override
     public String toString() {
-        return String.format("(sum=%.2f)", sum);
+        return String.format("(%s=%.2f)",columnName, sum);
     }
 }

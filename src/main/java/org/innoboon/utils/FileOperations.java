@@ -171,21 +171,25 @@ public class FileOperations {
         Map<String, List<String>> resultMap = new HashMap<>();
         List<String> lines = Files.readAllLines(file.toPath());
         int columnIndex = getHeaderIndex(lines.get(0).split(","), columnName);
-        // Check if the column exists in the header
         if (columnIndex == -1) {
             throw new IllegalArgumentException("Column '" + columnName + "' not found in the CSV file: " + file.getName());
         }
-        final boolean[] foundPrefix = {false};
-        List<String> result = lines.stream().skip(1) // Skip the header row
-                .map(line -> line.split(",")).filter(parts -> parts.length > columnIndex).filter(parts -> {
-                    // Use a flag to track whether the prefix has been found
-                    if (foundPrefix[0]) {
-                        return false;  // Skip values until the next occurrence after the prefix
+        List<String> result = new ArrayList<>();
+        boolean foundPrefix = false;
+        for (String line : lines.subList(1, lines.size())) {
+            String[] parts = line.split(",");
+            if (parts.length > columnIndex) {
+                String value = parts[columnIndex].trim();
+                if (foundPrefix) {
+                    if (value.startsWith(prefix)) {
+                        result.add(value);
                     }
-                    boolean startsWith = parts[columnIndex].trim().startsWith(prefix);
-                    foundPrefix[0] = startsWith;
-                    return startsWith;
-                }).map(parts -> parts[columnIndex].trim()).collect(Collectors.toList());
+                } else if (value.startsWith(prefix)) {
+                    foundPrefix = true;
+                    result.add(value);
+                }
+            }
+        }
         resultMap.put(columnName, result);
         return resultMap;
     }
@@ -275,18 +279,10 @@ public class FileOperations {
         if (columnIndex == -1) {
             throw new IllegalArgumentException("Column '" + columnName + "' not found in the CSV file");
         }
-        final boolean[] foundSuffix = {false};
         List<String> result = lines.stream().skip(1) // Skip the header row
                 .map(line -> line.split(","))
                 .filter(parts -> parts.length > columnIndex)
-                .filter(parts -> {
-                    if (foundSuffix[0]) {
-                        return false;  // Skip values until the next occurrence after the suffix
-                    }
-                    boolean endsWith = parts[columnIndex].trim().endsWith(suffix);
-                    foundSuffix[0] = endsWith;
-                    return endsWith;
-                })
+                .filter(parts -> parts[columnIndex].trim().endsWith(suffix))
                 .map(parts -> parts[columnIndex].trim())
                 .collect(Collectors.toList());
         resultMap.put(columnName, result);
