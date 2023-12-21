@@ -2,7 +2,7 @@
   <artifact type="jar" name="fileUtility:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/fileUtility_jar</output-path>
     <root id="archive" name="fileUtility.jar">
-      <element id="module-output" name="fileUtility" />
+      <element id="module-output" name="fileOperations" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.9.0/commons-csv-1.9.0.jar" path-in-jar="/" />
     </root>
   </artifact>
