@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.example.model.ResponseData;
+import org.innoboon.model.response.ResponseData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * FileUtility class for processing CSV or JSON files and performing calculations.
  */
-public class FileUtility {
+public class FileOperations {
     /**
      * Calculates the sum of a specified column in each CSV or JSON file in the given list.
      *
