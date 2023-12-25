@@ -16,7 +16,7 @@
     </parent>
     <groupId>org.innoboon</groupId>
     <artifactId>common-utils</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -29,5 +29,15 @@
             <version>1.9.0</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus.innoboon.com/repository/nexus-release-repo/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <url>http://nexus.innoboon.com/repository/nexus-snapshot-repo/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
